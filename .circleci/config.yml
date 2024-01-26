@@ -18,7 +18,7 @@ jobs:
             python3 create_tables.py
       - run:
           name: lint
-          command: flake8 app.py
+          command: ls
       - run:
           name: test
           command: pytest

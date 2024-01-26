@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Favorite Artists{% endblock %}
+
+{% block extra_links %}
+<link rel="stylesheet" href="../static/favorite_artists.css"/>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="favorite-artists-container">
+        <h1 class="mb-4 mt-4">Favorite Artists</h1>
+        {% if not artists %}
+            <p>You are not following any artists.</p>
+        {% else %}
+            <ul class="list-group">
+                {% for artist in artists %}
+                    <li class="mb-2">
+                        <a id="artist_name" href="{{ url_for('artist_page', artist_id=artist.id) }}">{{ artist.artist_stagename }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

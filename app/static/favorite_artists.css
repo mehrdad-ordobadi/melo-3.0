@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&family=Roboto:wght@300&display=swap');
+
+body {
+    margin-left: 25px;
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    grid-auto-rows: auto;
+    background-color: #0C1713;
+    color: #FFF;
+    font-family: 'Roboto Slab', serif;
+    /* background-image: url(../static/background/music_purple.jpg); */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+.container{
+    grid-column: 3/5;
+}
+.custom-list-item {
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+ul{
+    grid-column: 2/4;
+}
+#artist_name {
+    display: grid;
+    background-color: #12241c;
+    font-size: 1.5rem;
+    align-items: center;
+    text-decoration: none;
+    justify-content: center;
+    color: #f6e8e8;
+    width: 90%;
+    border: 2px solid #12241c;
+    border-radius: 5%;
+    margin-right: 30px;
+    height: 90%;
+    font-family: sans-serif;
+    padding: 10px;
+}
+#artist_name:hover {
+    background-color: #162e23;
+}
+
+li{
+    list-style:none;
+
+}
+
+@media screen and (max-width:660px) {
+    .container{
+        grid-column: 4/6;
+        margin-top: 50px;
+    }
+    
+}

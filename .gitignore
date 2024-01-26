@@ -1,0 +1,8 @@
+app/instance/
+venv/
+static/audio
+app/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.DS_Store

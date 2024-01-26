@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block extra_links %}
+<link rel="stylesheet" href="../static/dashboard.css">
+<script src="../static/dashboard.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@1,300&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<main>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="flashes">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    <div class="dashboard-container">
+        <h1 class="mt-3">Welcome, {{ current_user.username }}!</h1>
+        <hr class="mb-3 responsive-hr" >
+        {% if current_user.user_type == 'artist' %}
+        <h2 class="mb-4 mt-4">My Albums:</h2>
+        <ul class="album-lists">
+            {% for album in albums %}
+            <li>
+                <a href="{{ url_for('album_songs', album_id=album.album_id) }}">
+                    <img src="{{ url_for('static', filename='audio/' + album.artist_id|string + '/' + album.album_title.replace(' ', '').lower() + '/album_cover/' + album.cover_name) if album.cover_name else url_for('static', filename='album_placeholder/music-placeholder.jpeg') }}" alt="Cover Art" class="img-fluid">
+                    <h3>{{ album.album_title }}</h3>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <div class="dashboard-playlist">
+            <h3 class="all-playlists mb-4">My Playlists:</h3>
+            <ul class="list-group">
+                {% for playlist in playlists %}
+                <li class="mb-2">
+                    <a id="playlist_list" href="{{ url_for('my_playlists') + '#playlist-' + playlist.playlist_id|string }}">{{ playlist.playlist_title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

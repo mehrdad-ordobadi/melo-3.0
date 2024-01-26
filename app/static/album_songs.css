@@ -1,0 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&family=Roboto:wght@300&display=swap');
+.hidden {
+    display: none;
+}
+
+body {
+    font-family: 'Roboto Slab', sans-serif;
+    background-color: #0C1713;
+    color: #FFF;
+    margin-left: 22%;
+    height: 100vh;
+    /* background-image: url(../static/background/music_purple.jpg); */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+
+h1 {
+    grid-column: 3/5
+}
+
+.song-lists {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.song-lists li {
+    display: flex;
+    align-items: center;
+    height: 53px;
+}
+
+.song-lists li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    width: 70%;
+    height: 100%;
+    border: 2px solid transparent #fff;
+    border-radius: 10px;
+}
+
+.song-lists li a:hover {
+    cursor: default;
+    background-color: #162e23;
+}
+
+.song-lists li a span {
+    margin-left: 10px;
+}
+
+.songs-content {
+    margin-right: 5%;
+}
+
+#artist-name{
+    font-style: italic;
+    font-size: inherit;
+    font-weight: 600;
+    color: grey;
+}
+.player-container {
+    position: fixed;
+    left: 60%;
+    bottom: 10px;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1250px;
+    z-index: 1000;
+    box-shadow: 0 -6px 21px rgba(76.8, 20.5, 53.1, 69.1);
+  }
+  
+
+.player {
+    background-color: #0C1713;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 0fr 0fr auto auto auto;
+    /* display: flex; */
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* justify-content: space-between; */
+  
+    /* width: 100%; */
+    
+}
+
+.song_img {
+    width: 80px;
+    height: 80px;
+    border-radius: 0%;
+    object-fit: cover;
+    margin-right: 20px;
+}
+.top-nav_h1 {
+    grid-column: 2 / span 2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .top-nav_h1 div {
+    margin-bottom: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+  }
+/* .player-nav {
+    display: flex;
+    align-items: center;
+    flex-grow: 0.5;
+    justify-content: space-between;
+} */
+.player-nav {
+    grid-column: 4;
+    display: flex;
+    align-items: center;
+  }
+
+.player-nav .circle {
+    border-radius: 50%;
+    background-color: black;
+    color: black;
+    /* border-color: #FFF; */
+    width: 34px;
+    height: 34px;
+    line-height: 33px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    margin: 0 10px;
+    font-weight: 900;
+}
+
+.player p {
+    font-size: 16px;
+    margin: 0;
+}
+
+.bttn_audio {
+    grid-column: 3;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+/* .bttn_audio {
+    display: flex;
+    flex-grow: 0.6;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+} */
+
+.bttn_audio audio {
+    margin-right: 10px;
+}
+
+.bttn_audio button {
+    background-color: #162e23;
+    color: black;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 50px;
+    border-color: #FFF;
+    font-size: 16px;
+    cursor: pointer;
+    /* transition: background-color 0.3s ease; */
+}
+
+.bttn_audio button:hover {
+    background-color: #162e23;
+}
+
+.bttn_audio button:focus {
+    outline: none;
+    /* box-shadow: 0 0 0 2px #fff, 0 0 0 4px #162e23; */
+}
+
+.song-info-container {
+    color: #000;
+    display: flex;
+    align-items: center;
+}
+
+.player-container img {
+    margin-bottom: 0;
+}
+
+#song-title {
+    font-size: 18px;
+    font-weight: bold;
+    color:white;
+    margin-bottom: 5px; 
+}
+#audio-player {
+    width: 100%;
+  }
+  
+  #player {
+    /* Custom styles for the audio player */
+    height: 92px;
+    position: relative;
+    z-index: 2;
+    margin-left: 30px;
+    width: 400px;  
+  }
+  
+  #player::-webkit-media-controls-panel {
+    /* Styles for the media controls panel in WebKit browsers (Chrome, Safari) */
+    background-color: rgb(228 248 228);
+    border-radius: 5px;  
+  }
+
+  #player::-webkit-media-controls-play-button,
+  #prev-button,
+  #next-button {
+    /* Common styles for the buttons */
+    position: absolute;
+    /* transform: translateX(-50%); */
+    z-index: 4;
+    background-color: rgb(228 248 228);
+    justify-self: center;
+  }
+  
+  #player::-webkit-media-controls-play-button {
+    /* Styles for the play button in the media controls panel */
+    top: 0px;
+    left: 50%;
+    z-index: 1;
+    padding: 10px;
+    border-radius: 50%;
+  }
+  
+  #prev-button {
+    /* Styles for the previous button */
+    top: 9px;
+    margin-left: 160px;
+    /* left: calc(46% - 62px);    */
+    z-index: 3;
+  }
+  
+  #next-button {
+    /* Styles for the next button */
+    top: 9px;
+    margin-left: 300px;
+    /* left: calc(46% + 62px); */
+  }
+
+  /* Adjust button positions for smaller screens */
+@media (max-width: 500px) {
+    #prev-button {
+      left: calc(50% - 50px);
+    }
+    
+    #next-button {
+      left: calc(50% + 50px);
+    }
+  }
+  
+  /* Adjust button positions for even smaller screens */
+  @media (max-width: 400px) {
+    #prev-button,
+    #next-button {
+      display: none;
+    }
+  }
+  
+ 

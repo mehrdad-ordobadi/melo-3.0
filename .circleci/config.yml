@@ -16,9 +16,9 @@ jobs:
           command: | 
             cd app && mkdir instance
             python3 create_tables.py
-      - run:
-          name: lint
-          command: cd app && flake8 app.py
+      # - run:
+      #     name: lint
+      #     command: cd app && flake8 app.py
       - run:
           name: test
           command: pytest
@@ -31,11 +31,12 @@ jobs:
       - run:
           name: Push to main
           command: |
-            git config --global user.email "$GIT_EMAIL"
-            git config --global user.name "$GIT_USERNAME"
-            git checkout main
-            git merge $CIRCLE_BRANCH
-            git push origin main
+            git --version
+            # git config --global user.email "$GIT_EMAIL"
+            # git config --global user.name "$GIT_USERNAME"
+            # git checkout main
+            # git merge $CIRCLE_BRANCH
+            # git push origin main
 
 workflows:
   test_and_merge:

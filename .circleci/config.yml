@@ -1,0 +1,53 @@
+version: 2.1
+jobs:
+  build_and_test:
+    docker:
+      - image: ubuntu:latest
+    steps:
+      - checkout
+      - run:
+        name: install dependencies
+        command: | 
+          apt update
+          apt install  -y python3 python3-pip
+          pip3 install -r requirements.txt
+      - run:
+        name: create db
+        command: | 
+          cd app && mkdir instance
+          python3 create_tables.py
+      - run:
+        name: lint
+        command: flake8 app.py
+      - run:
+        name: test
+        command: pytest
+          
+  push_to_main:
+    docker:
+      - image: ubuntu:latest
+    steps:
+      - checkout
+      - run:
+        name: Push to main
+        command: |
+          git config --global user.email "$GIT_EMAIL"
+          git config --global user.name "$GIT_USERNAME"
+          git checkout main
+          git merge $CIRCLE_BRANCH
+          git push origin main
+
+workflows:
+  version: 2
+  test_and_merge:
+    jobs:
+      - build_and_test:
+          filters:
+            branches:
+              only: test
+      - push_to_main:
+          requires:
+            - build_and_test
+          filters:
+            branches:
+              only: test

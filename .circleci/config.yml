@@ -28,15 +28,17 @@ jobs:
       - image: ubuntu:latest
     steps:
       - checkout
+      -run:
+          name: install git
+          command: apt update && apt install -y git
       - run:
           name: Push to main
           command: |
-            git --version
-            # git config --global user.email "$GIT_EMAIL"
-            # git config --global user.name "$GIT_USERNAME"
-            # git checkout main
-            # git merge $CIRCLE_BRANCH
-            # git push origin main
+            git config --global user.email "$GIT_EMAIL"
+            git config --global user.name "$GIT_USERNAME"
+            git checkout main
+            git merge $CIRCLE_BRANCH
+            git push origin main
 
 workflows:
   test_and_merge:

@@ -1,3 +1,7 @@
+.pytest_cache
+.git
+.gitignore
+app/venv/
 app/instance/
 .pytest_cache
 venv/
@@ -7,3 +11,4 @@ app/__pycache__/
 *.pyo
 *.pyd
 .DS_Store
+.circleci/

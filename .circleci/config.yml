@@ -45,7 +45,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          docker-layer-caching: true
+          docker_layer_caching: true
       - run:
           name: fetch latest docker tag
           command: |
@@ -57,7 +57,7 @@ jobs:
       - run:
           name: increment tag
           command: |
-            IFS='.' read -ra VER <<< "$LATEST_TAG"
+            IFS='.' read -ra VER \<<< "$LATEST_TAG"
             VER[2]=$((VER[2]+1))
             NEW_TAG="${VER[0]}.${VER[1]}.${VER[2]}"
             echo "export NEW_TAG=${NEW_TAG}" >> $BASH_ENV

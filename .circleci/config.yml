@@ -52,10 +52,7 @@ jobs:
       - run:
           name: fetch latest docker tag
           command: |
-            LATEST_TAG=$(curl -s "https://hub.docker.com/v2/repositories/$DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME/tags/" | jq -r '.results[0].name')
-            if [ -z "$LATEST_TAG" ] || [ "$LATEST_TAG" == "null" ]; then
-                LATEST_TAG="0.0.0"
-            fi
+            LATEST_TAG=$(curl -s "https://hub.docker.com/v2/repositories/$DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME/tags/" | jq -r '.results | .[0] | .name // "0.0.0"')
             echo "Latest tag: $LATEST_TAG"
       - run:
           name: increment tag

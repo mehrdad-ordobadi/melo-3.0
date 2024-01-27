@@ -87,8 +87,8 @@ workflows:
             branches:
               only: test
       - dockerize_app:
-        requires:
-          - push_to_main
+          requires:
+            - push_to_main
           filters:
             branches:
               only: main

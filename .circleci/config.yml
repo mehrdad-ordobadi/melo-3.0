@@ -69,12 +69,24 @@ jobs:
             echo "export NEW_TAG=${NEW_TAG}" >> $BASH_ENV
             echo "New tag: $NEW_TAG"
             
+      -run:
+          name: install trivy
+          command: |
+            apk --no-cache update
+            apk --no-cache add curl
+            curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
 
       - run:  
           name: build docker image
           command: |
             source $BASH_ENV
             docker build -t $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$NEW_TAG .
+
+      - run:
+          name: scan docker image with trivy
+          command: |
+            trivy --exit-code 1 --severity HIGH --no-progress $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$NEW_TAG
+
       - run:
           name: push docker image
           command: |

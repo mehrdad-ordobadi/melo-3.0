@@ -86,6 +86,7 @@ jobs:
           name: scan docker image with trivy
           command: |
             source $BASH_ENV
+            echo "$DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$NEW_TAG"
             trivy --exit-code 1 --severity HIGH --no-progress $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$NEW_TAG
 
       - run:

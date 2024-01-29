@@ -88,12 +88,12 @@ jobs:
             curl -H "Content-Type: application/json" \
                 -X POST \
                 -d "{\"content\": \"$MESSAGE\"}" \
-                $DISCORD_WEBHOOK
+                $DC_WEBHOOK
             CONTENT=$(cat trivy-report.txt)
             curl -H "Content-Type: application/json" \
                 -X POST \
                 -d "{\"content\": \"$CONTENT\"}" \
-                $DISCORD_WEBHOOK
+                $DC_WEBHOOK
 
 workflows:
   test_and_merge:

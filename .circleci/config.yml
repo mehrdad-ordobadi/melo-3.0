@@ -93,7 +93,7 @@ jobs:
             echo $CONTENT
             curl -H "Content-Type: application/json" \
               -X POST \
-              -d "{\"content\": \"$CONTENT\"}" \
+              -d $CONTENT \
               $DC_WEBHOOK
 
 workflows:

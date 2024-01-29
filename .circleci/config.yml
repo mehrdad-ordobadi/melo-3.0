@@ -90,6 +90,7 @@ jobs:
                 -d "{\"content\": \"$MESSAGE\"}" \
                 $DC_WEBHOOK
             CONTENT=$(cat trivy-report.txt)
+            echo $CONTENT
             curl -H "Content-Type: application/json" \
                 -X POST \
                 -d "{\"content\": \"$CONTENT\"}" \

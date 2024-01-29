@@ -114,14 +114,15 @@ workflows:
           filters:
             branches:
               only: main
-  send discord notification:
+  send_discord_notification: # Corrected workflow name for consistency
     jobs:
-      - send discord notification:
+      - send discord notification: # This should match the job name defined under 'jobs'
           requires:
             - dockerize_app
           filters:
             branches:
               only: main
+
 
 
 

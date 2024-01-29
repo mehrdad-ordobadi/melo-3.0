@@ -63,7 +63,7 @@ jobs:
           name: scan docker image with trivy
           command: |
             echo "$DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1"
-            trivy --exit-code 0 --severity HIGH --no-progress -o trivy-report.txt $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1 
+            trivy --format json --exit-code 0 --severity HIGH --no-progress -o trivy-report.txt $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1 
       - persist_to_workspace:
           root: .  # or the directory where trivy-report.txt is located
           paths:
@@ -89,12 +89,12 @@ jobs:
                 -X POST \
                 -d "{\"content\": \"$MESSAGE\"}" \
                 $DC_WEBHOOK
-            CONTENT=$(cat trivy-report.txt)
+            CONTENT=$(< trivy-report.txt)
             echo $CONTENT
             curl -H "Content-Type: application/json" \
-                -X POST \
-                -d "{\"content\": \"$CONTENT\"}" \
-                $DC_WEBHOOK
+              -X POST \
+              -d "{\"content\": \"$CONTENT\"}" \
+              $DC_WEBHOOK
 
 workflows:
   test_and_merge:

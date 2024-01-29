@@ -69,7 +69,7 @@ jobs:
             echo "export NEW_TAG=${NEW_TAG}" >> $BASH_ENV
             echo "New tag: $NEW_TAG"
             
-      -run:
+      - run:
           name: install trivy
           command: |
             apk --no-cache update

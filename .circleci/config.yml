@@ -114,8 +114,6 @@ workflows:
           filters:
             branches:
               only: main
-  sending dc notification: # Workflow name
-    jobs:
       - send_discord_notification: # Job name, must match exactly
           requires:
             - dockerize_app

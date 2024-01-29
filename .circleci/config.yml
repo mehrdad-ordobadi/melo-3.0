@@ -63,8 +63,9 @@ jobs:
           name: scan docker image with trivy
           command: |
             echo "$DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1"
-            OUTPUT=$(trivy image --severity HIGH,CRITICAL --format template --template '{{- range . }}{{- range .Vulnerabilities }}- Severity: {{ .Severity }}, ID: {{ .VulnerabilityID }}, PkgName: {{ .PkgName }}\n{{- end}}{{- end }}{{- end }}' $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1)
+            OUTPUT=$(trivy image --severity HIGH,CRITICAL --format template --template '{{ range .Vulnerabilities }}- Severity: {{ .Severity }}, ID: {{ .VulnerabilityID }}, PkgName: {{ .PkgName }}\n{{ end }}' $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1)
             echo -e "$OUTPUT" > trivy-report.txt
+
 
 
       - persist_to_workspace:

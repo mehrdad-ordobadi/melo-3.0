@@ -64,8 +64,8 @@ jobs:
             TEMP=${LATEST_TAG#*.}
             VER1=${TEMP%%.*}
             VER2=${TEMP#*.}
-            VER[2]=$((VER[2]+1))
-            NEW_TAG="${VER[0]}.${VER[1]}.${VER[2]}"
+            VER[2]=$((VER2+1))
+            NEW_TAG="${VER0}.${VER1}.${VER2}"
             echo "export NEW_TAG=${NEW_TAG}" >> $BASH_ENV
             echo "New tag: $NEW_TAG"
             

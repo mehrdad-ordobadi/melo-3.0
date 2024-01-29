@@ -94,11 +94,6 @@ jobs:
                 -X POST \
                 -d "{\"content\": \"$CONTENT\"}" \
                 $DISCORD_WEBHOOK
-            
-        
-
-      
-
 
 workflows:
   test_and_merge:
@@ -116,6 +111,14 @@ workflows:
   dockerize_and_push:
     jobs:
       - dockerize_app:
+          filters:
+            branches:
+              only: main
+  send discord notification:
+    jobs:
+      - send discord notification:
+          requires:
+            - dockerize_app
           filters:
             branches:
               only: main

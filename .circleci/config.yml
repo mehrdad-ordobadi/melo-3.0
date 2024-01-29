@@ -76,7 +76,7 @@ jobs:
             echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             docker push $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1
 
-  send discord notification:
+  send_discord_notification:
     docker:
       - image: archlinux:base
     steps:
@@ -114,16 +114,11 @@ workflows:
           filters:
             branches:
               only: main
-  send_discord_notification: # Corrected workflow name for consistency
+  sending dc notification: # Workflow name
     jobs:
-      - send discord notification: # This should match the job name defined under 'jobs'
+      - send_discord_notification: # Job name, must match exactly
           requires:
             - dockerize_app
           filters:
             branches:
               only: main
-
-
-
-
-

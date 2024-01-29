@@ -55,19 +55,17 @@ jobs:
             echo "https://hub.docker.com/v2/repositories/$DOCKERHUB_USERNAME/$GH_REPONAME/tags/"
             LATEST_TAG=$(curl -s "https://hub.docker.com/v2/repositories/$DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME/tags/" | jq -r '.results | .[0] | .name // "0.0.0"')
             echo "Latest tag: $LATEST_TAG"
-          environment:
-            LATEST_TAG: $LATEST_TAG
-            # echo "export LATEST_TAG=$LATEST_TAG" >> $BASH_ENV
+            echo "export LATEST_TAG=$LATEST_TAG" >> $BASH_ENV
       - run:
           name: increment tag
           command: |
             source $BASH_ENV
             echo $LATEST_TAG
-            # IFS='.' read -ra VER \<<< "$LATEST_TAG"
-            # VER[2]=$((VER[2]+1))
-            # NEW_TAG="${VER[0]}.${VER[1]}.${VER[2]}"
-            # echo "export NEW_TAG=${NEW_TAG}" >> $BASH_ENV
-            # echo "New tag: $NEW_TAG"
+            IFS='.' read -ra VER \<<< "$LATEST_TAG"
+            VER[2]=$((VER[2]+1))
+            NEW_TAG="${VER[0]}.${VER[1]}.${VER[2]}"
+            echo "export NEW_TAG=${NEW_TAG}" >> $BASH_ENV
+            echo "New tag: $NEW_TAG"
 
       # - run:  
       #     name: build docker image

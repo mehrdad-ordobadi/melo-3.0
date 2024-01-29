@@ -74,6 +74,7 @@ jobs:
           name: build docker image
           command: |
             source $BASH_ENV
+            echo $NEW_TAG
             docker build -t $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$NEW_TAG .
       - run:
           name: push docker image

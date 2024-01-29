@@ -61,7 +61,7 @@ jobs:
       - run:
           name: increment tag
           command: |
-            # source $BASH_ENV
+            source $BASH_ENV
             echo $LATEST_TAG
             # IFS='.' read -ra VER \<<< "$LATEST_TAG"
             # VER[2]=$((VER[2]+1))

@@ -1,0 +1,6 @@
+- Severity: HIGH, ID: CVE-2024-0553, Title: gnutls: incomplete fix for CVE-2023-5981
+- Severity: HIGH, ID: CVE-2024-0567, Title: gnutls: rejects certificate chain with distributed trust
+- Severity: HIGH, ID: CVE-2023-7104, Title: sqlite: heap-buffer-overflow at sessionfuzz
+- Severity: HIGH, ID: CVE-2023-31484, Title: perl: CPAN.pm does not verify TLS certificates when downloading distributions over HTTPS
+- Severity: CRITICAL, ID: CVE-2023-45853, Title: zlib: integer overflow and resultant heap-based buffer overflow in zipOpenNewFileInZip4_6
+

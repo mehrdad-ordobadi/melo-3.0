@@ -63,7 +63,10 @@ jobs:
           name: scan docker image with trivy
           command: |
             echo "$DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1"
-            trivy --format json --exit-code 0 --severity HIGH --no-progress -o trivy-report.txt $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1 
+            OUTPUT=$(trivy image --format template --template '{{- range . }}{{- range .Vulnerabilities }}{{- if or (eq .Severity "HIGH") (eq .Severity "CRITICAL") }}- Severity: \ 
+            {{ .Severity }}, ID: {{ .VulnerabilityID }}, PkgName: {{ .PkgName }}\n{{- end}}{{- end }}{{- end }}' $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1 
+            echo -e "$OUTPUT" > trivy-report.txt
+
       - persist_to_workspace:
           root: .  # or the directory where trivy-report.txt is located
           paths:
@@ -93,7 +96,7 @@ jobs:
             echo $CONTENT
             curl -H "Content-Type: application/json" \
               -X POST \
-              -d $CONTENT \
+              -d "{\"content\": \"$CONTENT\"}" \
               $DC_WEBHOOK
 
 workflows:

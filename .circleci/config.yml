@@ -46,28 +46,6 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-      # - run:
-      #     name: Install jq
-      #     command: apk add --no-cache jq curl
-      # - run:
-      #     name: fetch latest docker tag
-      #     command: |
-      #       echo "https://hub.docker.com/v2/repositories/$DOCKERHUB_USERNAME/$GH_REPONAME/tags/"
-      #       LATEST_TAG=$(curl -s "https://hub.docker.com/v2/repositories/$DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME/tags/" | jq -r '.results | .[0] | .name // "0.0.0"')
-      #       echo "Latest tag: $LATEST_TAG"
-      #       echo "export LATEST_TAG=$LATEST_TAG" >> $BASH_ENV
-      # - run:
-      #     name: increment tag
-      #     command: |
-      #       source $BASH_ENV
-      #       VER0=${LATEST_TAG%%.*}
-      #       TEMP=${LATEST_TAG#*.}
-      #       VER1=${TEMP%%.*}
-      #       VER2=${TEMP#*.}
-      #       VER2=$((VER2+1))
-      #       NEW_TAG="${VER0}.${VER1}.${VER2}"
-      #       echo "export NEW_TAG=${NEW_TAG}" >> $BASH_ENV
-      #       echo "New tag: $NEW_TAG"
 
       - run:  
           name: build docker image
@@ -85,13 +63,42 @@ jobs:
           name: scan docker image with trivy
           command: |
             echo "$DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1"
-            trivy --exit-code 0 --severity HIGH --no-progress $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1
+            trivy --exit-code 0 --severity HIGH --no-progress -o trivy-report.txt $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1 
+      - persist_to_workspace:
+          root: .  # or the directory where trivy-report.txt is located
+          paths:
+            - trivy-report.txt
+
 
       - run:
           name: push docker image
           command: |
             echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
             docker push $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1
+
+  send discord notification:
+    docker:
+      - image: archlinux:base
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          command: |
+            MESSAGE="Docker image $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1 sumbitted by $CIRCLE_USERNAME has been pushed to DockerHub \nThe following msg is the content of trivy report on this image:"
+            curl -H "Content-Type: application/json" \
+                -X POST \
+                -d "{\"content\": \"$MESSAGE\"}" \
+                $DISCORD_WEBHOOK
+            CONTENT=$(cat trivy-report.txt)
+            curl -H "Content-Type: application/json" \
+                -X POST \
+                -d "{\"content\": \"$CONTENT\"}" \
+                $DISCORD_WEBHOOK
+            
+        
+
+      
+
 
 workflows:
   test_and_merge:
@@ -112,3 +119,7 @@ workflows:
           filters:
             branches:
               only: main
+
+
+
+

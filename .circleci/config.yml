@@ -59,6 +59,7 @@ jobs:
       - run:
           name: increment tag
           command: |
+            source $BASH_ENV
             echo $LATEST_TAG
             # IFS='.' read -ra VER \<<< "$LATEST_TAG"
             # VER[2]=$((VER[2]+1))
@@ -66,15 +67,15 @@ jobs:
             # echo "export NEW_TAG=${NEW_TAG}" >> $BASH_ENV
             # echo "New tag: $NEW_TAG"
 
-      - run:  
-          name: build docker image
-          command: |
-            docker build -t $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$NEW_TAG .
-      - run:
-          name: push docker image
-          command: |
-            echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-            docker push $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$NEW_TAG
+      # - run:  
+      #     name: build docker image
+      #     command: |
+      #       docker build -t $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$NEW_TAG .
+      # - run:
+      #     name: push docker image
+      #     command: |
+      #       echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+      #       docker push $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$NEW_TAG
 
 workflows:
   test_and_merge:

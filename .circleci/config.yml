@@ -46,29 +46,34 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-      - run:
-          name: Install jq
-          command: apk add --no-cache jq curl
-      - run:
-          name: fetch latest docker tag
+      # - run:
+      #     name: Install jq
+      #     command: apk add --no-cache jq curl
+      # - run:
+      #     name: fetch latest docker tag
+      #     command: |
+      #       echo "https://hub.docker.com/v2/repositories/$DOCKERHUB_USERNAME/$GH_REPONAME/tags/"
+      #       LATEST_TAG=$(curl -s "https://hub.docker.com/v2/repositories/$DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME/tags/" | jq -r '.results | .[0] | .name // "0.0.0"')
+      #       echo "Latest tag: $LATEST_TAG"
+      #       echo "export LATEST_TAG=$LATEST_TAG" >> $BASH_ENV
+      # - run:
+      #     name: increment tag
+      #     command: |
+      #       source $BASH_ENV
+      #       VER0=${LATEST_TAG%%.*}
+      #       TEMP=${LATEST_TAG#*.}
+      #       VER1=${TEMP%%.*}
+      #       VER2=${TEMP#*.}
+      #       VER2=$((VER2+1))
+      #       NEW_TAG="${VER0}.${VER1}.${VER2}"
+      #       echo "export NEW_TAG=${NEW_TAG}" >> $BASH_ENV
+      #       echo "New tag: $NEW_TAG"
+
+      - run:  
+          name: build docker image
           command: |
-            echo "https://hub.docker.com/v2/repositories/$DOCKERHUB_USERNAME/$GH_REPONAME/tags/"
-            LATEST_TAG=$(curl -s "https://hub.docker.com/v2/repositories/$DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME/tags/" | jq -r '.results | .[0] | .name // "0.0.0"')
-            echo "Latest tag: $LATEST_TAG"
-            echo "export LATEST_TAG=$LATEST_TAG" >> $BASH_ENV
-      - run:
-          name: increment tag
-          command: |
-            source $BASH_ENV
-            VER0=${LATEST_TAG%%.*}
-            TEMP=${LATEST_TAG#*.}
-            VER1=${TEMP%%.*}
-            VER2=${TEMP#*.}
-            VER2=$((VER2+1))
-            NEW_TAG="${VER0}.${VER1}.${VER2}"
-            echo "export NEW_TAG=${NEW_TAG}" >> $BASH_ENV
-            echo "New tag: $NEW_TAG"
-            
+            docker build -t $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1 .
+
       - run:
           name: install trivy
           command: |
@@ -76,18 +81,10 @@ jobs:
             apk --no-cache add curl
             curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.18.3
 
-
-      - run:  
-          name: build docker image
-          command: |
-            source $BASH_ENV
-            docker build -t $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$NEW_TAG .
-
       - run:
           name: scan docker image with trivy
           command: |
-            source $BASH_ENV
-            echo "$DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$NEW_TAG"
+            echo "$DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1"
             trivy --exit-code 0 --severity HIGH --no-progress $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$NEW_TAG
 
       - run:
@@ -96,7 +93,7 @@ jobs:
             source $BASH_ENV
             echo $NEW_TAG
             echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-            docker push $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$NEW_TAG
+            docker push $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1
 
 workflows:
   test_and_merge:

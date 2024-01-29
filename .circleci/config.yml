@@ -61,7 +61,7 @@ jobs:
           command: |
             source $BASH_ENV
             echo $LATEST_TAG
-            IFS='.' read -ra VER \<<< $LATEST_TAG
+            echo $LATEST_TAG | IFS='.' read -ra VER 
             echo ${VER[2]}
             # VER[2]=$((VER[2]+1))
             # NEW_TAG="${VER[0]}.${VER[1]}.${VER[2]}"

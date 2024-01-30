@@ -1,0 +1,34 @@
+name: Terraform Dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      env_name:
+        description: 'Ephemeral Environment Name'
+        required: true
+        default: 'dev'
+      branch_name:
+        description: 'Branch Name'
+        required: true
+        default: 'env'
+
+jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch_name }}
+      - name: install-terraform
+        run: |
+          pwd
+          ls
+          cd ./IaC
+          chmod +x ./tf_install.sh
+          ./tf_install.sh
+          terraform init -reconfigure -backend-config="key=envs/${{ github.event.inputs.env_name }}/terraform.tfstate" || { echo "Failed to initialize Terraform"; exit 1; }
+          terraform destroy -var "environment_name=${{ github.event.inputs.env_name }}" -auto-approve  || { echo "Failed to apply Terraform configuration"; exit 1; }
+    

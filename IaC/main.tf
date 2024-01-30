@@ -135,16 +135,16 @@ resource "aws_eip" "coderunner_eip" {
   instance = aws_instance.coderunner_ubuntu.id
   # vpc = true
 }
-#  terraform {
-#   backend "s3" {
-#     bucket         = "tf-state-wmill"  # Replace with your bucket name
-#     key            = "envs/${var.environment_name}/terraform.tfstate"
-#     region         = "us-east-1"                  # Replace with your bucket region
-#     dynamodb_table = "lock_table_tfw"              # Replace with your DynamoDB table name
-#     encrypt        = true
-#   }
+ terraform {
+  backend "s3" {
+    bucket         = "tf-state-wmill"  # Replace with your bucket name
+    key            = "envs/${var.environment_name}/terraform.tfstate"
+    region         = "us-east-1"                  # Replace with your bucket region
+    dynamodb_table = "lock_table_tfw"              # Replace with your DynamoDB table name
+    encrypt        = true
+  }
    
-#  }
+ }
 
 
 

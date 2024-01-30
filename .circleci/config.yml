@@ -65,15 +65,11 @@ jobs:
             OUTPUT=$(trivy image --severity HIGH,CRITICAL --format template --template '{{- range . }}{{- range .Vulnerabilities }}- Severity: {{ .Severity }}, ID: {{ .VulnerabilityID }}, PkgName: {{ .PkgName }}\n{{- end }}{{- end }}' $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1)
             echo -e "$OUTPUT" > trivy-report.txt
 
-
-
-
       - persist_to_workspace:
           root: .  # or the directory where trivy-report.txt is located
           paths:
             - trivy-report.txt
-
-
+            
       - run:
           name: push docker image
           command: |
@@ -94,10 +90,11 @@ jobs:
                 -d "{\"content\": \"$MESSAGE\"}" \
                 $DC_WEBHOOK
             CONTENT=$(< trivy-report.txt)
+            JSON_PAYLOAD=$(jq -n --arg content "$CONTENT" '{content: $content}')
             echo $CONTENT
             curl -H "Content-Type: application/json" \
               -X POST \
-              -d "{\"content\": \"$CONTENT\"}" \
+              -d "$JSON_PAYLOAD" \
               $DC_WEBHOOK
 
 workflows:

@@ -97,11 +97,6 @@ jobs:
               -X POST \
               -d "$JSON_PAYLOAD" \
               $DC_WEBHOOK
-            MSG="CHITWAN BOOLI"
-            curl -H "Content-Type: application/json" \
-                -X POST \
-                -d "{\"content\": \"$MSG\"}" \
-                $DC_WEBHOOK
 
 workflows:
   test_and_merge:

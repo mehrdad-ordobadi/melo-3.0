@@ -13,3 +13,6 @@ app/__pycache__/
 .DS_Store
 .circleci/
 IaC/
+scripts/
+scripts/*
+scripts/venv

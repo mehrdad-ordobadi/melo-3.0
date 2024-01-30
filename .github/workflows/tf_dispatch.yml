@@ -22,7 +22,9 @@ jobs:
           ref: ${{ github.event.inputs.branch_name }}
       - name: install-terraform
         run: |
-          chmod +x ./IaC/ts_install.sh
-          ./IaC/ts_install.sh
-          terraform init
-          terraform plan -var "environment_name=${{ github.event.inputs.env_name }}"
+          pwd
+          ls
+          # chmod +x ./IaC/ts_install.sh
+          # ./IaC/ts_install.sh
+          # terraform init
+          # terraform plan -var "environment_name=${{ github.event.inputs.env_name }}"

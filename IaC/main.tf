@@ -1,10 +1,22 @@
 provider "aws" {
   region = "us-east-1"  # Replace with your preferred AWS region
 #   profile = "personal-aws" # replace with your AWS CLI profile`
+  access_key = var.aws_access_key_id
+  secret_key = var.aws_secret_access_key
 }
 
 variable "environment_name" {
   description = "The name of the environment"
+  type        = string
+}
+
+variable "aws_access_key_id" {
+  description = "AWS Access Key ID"
+  type        = string
+}
+
+variable "aws_secret_access_key" {
+  description = "AWS Secret Access Key"
   type        = string
 }
 

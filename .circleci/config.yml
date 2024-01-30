@@ -69,7 +69,7 @@ jobs:
           root: .  # or the directory where trivy-report.txt is located
           paths:
             - trivy-report.txt
-            
+
       - run:
           name: push docker image
           command: |
@@ -84,6 +84,7 @@ jobs:
           at: .
       - run:
           command: |
+            pacman -Syu jq --noconfirm
             MESSAGE="Docker image $DOCKERHUB_USERNAME/$CIRCLE_PROJECT_REPONAME:$CIRCLE_SHA1 sumbitted by $CIRCLE_USERNAME has been pushed to DockerHub \nThe following msg is the content of trivy report on this image:"
             curl -H "Content-Type: application/json" \
                 -X POST \

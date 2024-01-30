@@ -24,11 +24,9 @@ jobs:
           ref: ${{ github.event.inputs.branch_name }}
       - name: install-terraform
         run: |
-          pwd
-          ls
           cd ./IaC
           chmod +x ./tf_install.sh
           ./tf_install.sh
           terraform init -reconfigure -backend-config="key=envs/${{ github.event.inputs.env_name }}/terraform.tfstate" || { echo "Failed to initialize Terraform"; exit 1; }
-          terraform destroy -var "environment_name=${{ github.event.inputs.env_name }}" -auto-approve  || { echo "Failed to apply Terraform configuration"; exit 1; }
+          terraform destroy -var "aws_access_key_id=${{ env.AWS_ACCESS_KEY_ID }}" -var "aws_secret_access_key=${{ env.AWS_SECRET_ACCESS_KEY }}" "environment_name=${{ github.event.inputs.env_name }}" -auto-approve  || { echo "Failed to apply Terraform configuration"; exit 1; }
     

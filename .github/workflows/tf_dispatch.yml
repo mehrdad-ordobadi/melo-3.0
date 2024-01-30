@@ -24,7 +24,8 @@ jobs:
         run: |
           pwd
           ls
-          # chmod +x ./IaC/ts_install.sh
-          # ./IaC/ts_install.sh
-          # terraform init
-          # terraform plan -var "environment_name=${{ github.event.inputs.env_name }}"
+          cd ./IaC
+          chmod +x ts_install.sh
+          ts_install.sh
+          terraform init
+          terraform plan -var "environment_name=${{ github.event.inputs.env_name }}"

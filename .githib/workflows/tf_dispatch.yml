@@ -1,0 +1,27 @@
+name: Terraform Dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      env_name:
+        description: 'Ephemeral Environment Name'
+        required: true
+        default: 'dev'
+      branch_name:
+        description: 'Branch Name'
+        required: true
+
+
+jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch_name }}
+      - name: install terraform
+          run: |
+            chmod +x ./IaC/ts_install.sh
+            ./IaC/ts_install.sh
+            terraform init
+            terraform plan -var "environment_name=${{ github.event.inputs.env_name }}"

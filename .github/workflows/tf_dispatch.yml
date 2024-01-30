@@ -26,6 +26,6 @@ jobs:
           ls
           cd ./IaC
           chmod +x ./tf_install.sh
-          ./ts_install.sh
+          ./tf_install.sh
           terraform init
           terraform plan -var "environment_name=${{ github.event.inputs.env_name }}"

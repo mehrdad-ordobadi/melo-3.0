@@ -11,7 +11,7 @@ jobs:
                 docker --version
             - name: get-sha
               run: |
-                echo "the commit sha is {{github.sha}}"
+                echo "the commit sha is ${{ github.sha }}"
             - name: see-env-variables
               run: |
                 printenv

@@ -6,9 +6,12 @@ jobs:
     runing_test:
         runs-on: ubuntu-latest
         steps: 
-            - name: run-first-test
+            - name: check-docker-version
               run: |
                 docker --version
-            - name: run-second-test
+            - name: get-sha
+              run: |
+                echo "the commit sha is {{github.sha}}"
+            - name: see-env-variables
               run: |
                 printenv

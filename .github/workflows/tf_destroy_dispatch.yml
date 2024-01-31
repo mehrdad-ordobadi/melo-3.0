@@ -1,4 +1,4 @@
-name: Terraform Dispatch
+name: Terraform Destroy Dispatch
 on:
   workflow_dispatch:
     inputs:
@@ -29,4 +29,8 @@ jobs:
           ./tf_install.sh
           terraform init -reconfigure -backend-config="key=envs/${{ github.event.inputs.env_name }}/terraform.tfstate" || { echo "Failed to initialize Terraform"; exit 1; }
           terraform destroy -var "aws_access_key_id=${{ env.AWS_ACCESS_KEY_ID }}" -var "aws_secret_access_key=${{ env.AWS_SECRET_ACCESS_KEY }}" -var "environment_name=${{ github.event.inputs.env_name }}" -auto-approve  || { echo "Failed to apply Terraform configuration"; exit 1; }
+          - name: send-discord-message
+          run: |
+            MESSAGE1="The environment: ${{ github.event.inputs.env_name }} has been destroyed successfully!"
+            curl -X POST -H 'Content-type: application/json' --data "{\"content\":\"$MESSAGE1\"}" ${{ secrets.TF_DESTROY_WH }}
     

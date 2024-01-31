@@ -32,5 +32,5 @@ jobs:
       - name: send-discord-message  
         run: |
           MESSAGE1="The environment: ${{ github.event.inputs.env_name }} has been destroyed successfully!"
-          curl -X POST -H 'Content-type: application/json' --data "{\"content\":\"$MESSAGE1\"}" ${{ secrets.TF_DESTROY_WH }}
+          curl -X POST -H 'Content-type: application/json' --data "{\"content\":\"$MESSAGE1\"}" ${{ secrets.TF_DESTRPY_WH }}
     

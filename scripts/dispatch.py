@@ -2,6 +2,8 @@
 import asyncio
 # import requests
 import httpx
+import sys
+
 
 async def dispatch_workflow(token, owner, repo, workflow_id, ref, inputs={}):
     url = f"https://api.github.com/repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches"
@@ -46,11 +48,11 @@ async def run_dispatch(token, owner, repo, workflow_id, ref, inputs={}):
 
 
 if __name__ == "__main__":
-    token = "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"
+    token = "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"
     owner = "mehrdad-ordobadi"
     repo = "melo-3.0"
     workflow_id = "tf_apply_dispatch.yml"
     # workflow_id = "tf_destroy_dispatch.yml"
     ref = "env"
-    inputs = {"env_name": "env1", "branch_name": "env"}
+    inputs = {"env_name": sys.argv[1], "branch_name": "env"}
     asyncio.run(run_dispatch(token, owner, repo, workflow_id, ref, inputs))

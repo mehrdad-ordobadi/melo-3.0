@@ -15,7 +15,7 @@ get_latest_terraform() {
 }
 
 apt update
-apt install  -y unzip jq wget
+apt install -y unzip jq wget
 
 latest_version=$(get_latest_terraform)
 latest_url="https://releases.hashicorp.com/terraform/${latest_version}/terraform_${latest_version}_${TF_PARAM_OS}_${TF_PARAM_ARCH}.zip"

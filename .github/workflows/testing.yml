@@ -1,0 +1,14 @@
+name: Terraform Apply Dispatch
+on:
+  workflow_dispatch:
+
+jobs:
+    runing_test:
+        runs-on: ubuntu-latest
+        steps: 
+            - name: run-first-test
+              run: |
+                docker --version
+            - name: run-second-test
+              run: |
+                printenv

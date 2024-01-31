@@ -1,4 +1,4 @@
-name: Terraform Dispatch
+name: Terraform Apply Dispatch
 on:
   workflow_dispatch:
     inputs:
@@ -31,3 +31,8 @@ jobs:
           terraform init -backend-config="key=envs/${{ github.event.inputs.env_name }}/terraform.tfstate"  || { echo "Failed to initialize Terraform configuration"; exit 1; }
           terraform plan -var "aws_access_key_id=${{ env.AWS_ACCESS_KEY_ID }}" -var "aws_secret_access_key=${{ env.AWS_SECRET_ACCESS_KEY }}" -var "environment_name=${{ github.event.inputs.env_name }}"  || { echo "Failed to plan Terraform configuration"; exit 1; }
           terraform apply -var "aws_access_key_id=${{ env.AWS_ACCESS_KEY_ID }}" -var "aws_secret_access_key=${{ env.AWS_SECRET_ACCESS_KEY }}" -var "environment_name=${{ github.event.inputs.env_name }}" -auto-approve  || { echo "Failed to apply Terraform configuration"; exit 1; }
+      - name: send-discord-message
+        run: |
+          MESSAGE1="Terraform Apply for ${{ github.event.inputs.env_name }} has been completed successfully!"
+          curl -X POST -H 'Content-type: application/json' --data "{\"content\":\"$MESSAGE1\"}" ${{ secrets.DC_WEBHOOK_URL }}
+          

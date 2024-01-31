@@ -33,6 +33,6 @@ jobs:
           terraform apply -var "aws_access_key_id=${{ env.AWS_ACCESS_KEY_ID }}" -var "aws_secret_access_key=${{ env.AWS_SECRET_ACCESS_KEY }}" -var "environment_name=${{ github.event.inputs.env_name }}" -auto-approve  || { echo "Failed to apply Terraform configuration"; exit 1; }
       - name: send-discord-message
         run: |
-          MESSAGE1="Terraform Apply for ${{ github.event.inputs.env_name }} has been completed successfully!"
+          MESSAGE1="Terraform Apply for ${{ github.event.inputs.env_name }} has been completed successfully! To destroy this Environment, Enter the command '!destroy now'. Otherwise it will be destroyed after 2 minutes."
           curl -X POST -H 'Content-type: application/json' --data "{\"content\":\"$MESSAGE1\"}" ${{ secrets.DC_WEBHOOK_URL }}
           

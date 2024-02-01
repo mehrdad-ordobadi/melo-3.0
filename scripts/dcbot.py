@@ -3,7 +3,7 @@ from discord.ext import commands
 import asyncio
 from dispatch import run_dispatch
 
-gh_token = "***********"
+gh_token = "***********x"
 owner = "mehrdad-ordobadi"
 repo = "melo-3.0"
 # workflow_id = "tf_apply_dispatch.yml"

@@ -15,3 +15,6 @@ jobs:
             - name: see-env-variables
               run: |
                 printenv
+            - name: checkout-awscli-version
+              run: |
+                aws --version

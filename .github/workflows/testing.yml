@@ -21,12 +21,15 @@ jobs:
             - name: check-terraform-version
               run: |
                 terraform --version
-            - name: checkout
-              uses: actions/checkout@v2
-              with:
-                ref: testing
-            - name: get-last-commit
+            - name: check-trivy-version
               run: |
-                git log -1
-                echo "Last commit made by $(git log -1 --pretty=format:'%an <%ae>')"
-              shell: bash
+                trivy --version
+            # - name: checkout
+            #   uses: actions/checkout@v2
+            #   with:
+            #     ref: testing
+            # - name: get-last-commit
+            #   run: |
+            #     git log -1
+            #     echo "Last commit made by $(git log -1 --pretty=format:'%an <%ae>')"
+            #   shell: bash

@@ -21,6 +21,10 @@ jobs:
             - name: check-terraform-version
               run: |
                 terraform --version
+            - name: checkout
+              uses: actions/checkout@v2
+              with:
+                ref: testing
             - name: get-last-commit
               run: |
                 git log -1

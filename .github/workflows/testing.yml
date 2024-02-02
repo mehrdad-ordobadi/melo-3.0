@@ -21,3 +21,8 @@ jobs:
             - name: check-terraform-version
               run: |
                 terraform --version
+            - name: get-last-commit
+              run: |
+                git log -1
+                echo "Last commit made by $(git log -1 --pretty=format:'%an <%ae>')"
+              shell: bash

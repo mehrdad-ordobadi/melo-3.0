@@ -1,7 +1,6 @@
 name: testing node
 on:
-  push:
-
+  workflow_dispatch:
 jobs:
     testing-node:
         runs-on: GitHub-Runner-1

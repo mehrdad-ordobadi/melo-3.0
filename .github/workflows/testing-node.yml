@@ -1,0 +1,12 @@
+name: testing node
+on:
+  push:
+
+jobs:
+    testing-node:
+        runs-on: GitHub-Runner-1
+        steps:
+            - name: testing
+              run: |
+                node -v
+                npm -v
